@@ -1,6 +1,5 @@
 package wastedge.api;
 
-import com.sun.org.apache.xml.internal.serializer.EmptySerializer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 

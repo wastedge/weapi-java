@@ -3,10 +3,8 @@ package wastedge.api;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
-import javafx.beans.property.adapter.JavaBeanBooleanProperty;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.Validate;
@@ -14,7 +12,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 
-import java.awt.image.Kernel;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +42,10 @@ public class ResultSet {
         Validate.notNull(index, "index");
 
         return row[fieldsByField.get(index)];
+    }
+
+    public EntitySchema getEntity() {
+        return entity;
     }
 
     public int getFieldCount() {
@@ -163,15 +164,18 @@ public class ResultSet {
         if (value instanceof Long) {
             return BigDecimal.valueOf((long)value);
         }
+        if (value instanceof Double) {
+            return BigDecimal.valueOf((double)value);
+        }
         return (BigDecimal)value;
     }
 
+    public double getDouble(int index) {
+        return ((Number)get(index)).doubleValue();
+    }
+
     public long getLong(int index) {
-        Object value = get(index);
-        if (value instanceof BigDecimal) {
-            return ((BigDecimal)value).longValue();
-        }
-        return (Long)value;
+        return ((Number)get(index)).longValue();
     }
 
     public boolean getBool(int index) {

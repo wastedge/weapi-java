@@ -1,7 +1,6 @@
 package wastedge.api;
 
 import com.google.gson.JsonObject;
-import com.sun.javafx.scene.control.behavior.ScrollBarBehavior;
 import org.apache.commons.io.output.StringBuilderWriter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
