@@ -45,6 +45,8 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/wastedge-api/pom.xml" />
+        <option value="$PROJECT_DIR$/wastedge-api-weql/pom.xml" />
+        <option value="$PROJECT_DIR$/wastedge-api-weql-maven-plugin/pom.xml" />
       </list>
     </option>
   </component>

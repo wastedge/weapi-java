@@ -1,0 +1,80 @@
+<schema packageName="wastedge.api.weql.syntax">
+    <class name="SyntaxNode" abstract="true" ignore="true">
+        <property name="Span" type="Span" last="true"/>
+    </class>
+    <class name="PredicateSyntax" abstract="true" base="SyntaxNode"/>
+    <class name="ValueSyntax" abstract="true" base="SyntaxNode"/>
+    <class name="NameSyntax" abstract="true" base="ValueSyntax"/>
+    <class name="IdentifierSyntax" base="NameSyntax">
+        <property name="Name" type="String"/>
+    </class>
+    <class name="QualifiedNameSyntax" base="NameSyntax">
+        <property name="Qualifier" type="NameSyntax"/>
+        <property name="Identifier" type="IdentifierSyntax"/>
+    </class>
+    <class name="EntityNameSyntax" base="NameSyntax">
+        <property name="Qualifier" type="NameSyntax"/>
+        <property name="Identifier" type="IdentifierSyntax"/>
+    </class>
+    <class name="LiteralSyntax" base="ValueSyntax">
+        <property name="Value" type="String" nullable="true"/>
+        <property name="Type" type="LiteralType"/>
+    </class>
+    <class name="ParenValueSyntax" base="ValueSyntax">
+        <property name="Value" type="ValueSyntax"/>
+    </class>
+    <class name="ParenPredicateSyntax" base="PredicateSyntax">
+        <property name="Predicate" type="PredicateSyntax"/>
+    </class>
+    <class name="BinaryPredicateSyntax" base="PredicateSyntax">
+        <property name="Operator" type="BinaryPredicateOperator"/>
+        <property name="Left" type="PredicateSyntax"/>
+        <property name="Right" type="PredicateSyntax"/>
+    </class>
+    <class name="BinaryComparisonSyntax" base="PredicateSyntax">
+        <property name="Operator" type="BinaryComparisonOperator"/>
+        <property name="Left" type="ValueSyntax"/>
+        <property name="Right" type="ValueSyntax"/>
+    </class>
+    <class name="UnaryPredicateSyntax" base="PredicateSyntax">
+        <property name="Operator" type="UnaryPredicateOperator"/>
+        <property name="Operand" type="PredicateSyntax"/>
+    </class>
+    <class name="QuerySyntax" base="SyntaxNode">
+        <property name="FromClause" type="FromClauseSyntax"/>
+        <property name="ExpandClause" type="ExpandClauseSyntax" nullable="true"/>
+        <property name="WhereClause" type="PredicateSyntax" nullable="true"/>
+        <property name="OrderByClause" type="OrderByClauseSyntax" nullable="true"/>
+        <property name="LimitClause" type="LimitClauseSyntax" nullable="true"/>
+    </class>
+    <class name="FromClauseSyntax" base="SyntaxNode">
+        <property name="From" type="NameSyntax"/>
+    </class>
+    <class name="ExpandClauseSyntax" base="SyntaxNode">
+        <property name="Elements" type="NameSyntax" list="true"/>
+    </class>
+    <class name="ValueListSyntax" base="ValueSyntax">
+        <property name="Values" type="ValueSyntax" list="true"/>
+    </class>
+    <class name="LikeSyntax" base="ValueSyntax">
+        <property name="Value" type="ValueSyntax"/>
+    </class>
+    <class name="OrderByClauseSyntax" base="SyntaxNode">
+        <property name="Elements" type="OrderByElementSyntax" list="true"/>
+    </class>
+    <class name="OrderByElementSyntax" base="SyntaxNode">
+        <property name="Identifier" type="IdentifierSyntax"/>
+        <property name="Type" type="OrderType" nullable="true"/>
+    </class>
+    <class name="InvocationSyntax" base="ValueSyntax">
+        <property name="Name" type="IdentifierSyntax"/>
+        <property name="Arguments" type="ValueSyntax" list="true"/>
+    </class>
+    <class name="DynamicParameterSyntax" base="ValueSyntax">
+        <property name="Identifier" type="String"/>
+    </class>
+    <class name="LimitClauseSyntax" base="SyntaxNode">
+        <property name="Offset" type="LiteralSyntax" nullable="true"/>
+        <property name="RowCount" type="LiteralSyntax"/>
+    </class>
+</schema>

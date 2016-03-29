@@ -85,19 +85,7 @@ class ApiUtils {
                     throw new IllegalArgumentException("value");
             }
         }
-        if (value instanceof Integer) {
-            return Integer.toString((int)value);
-        }
-        if (value instanceof Long) {
-            return Long.toString((long)value);
-        }
-        if (value instanceof Float) {
-            return Float.toString((float)value);
-        }
-        if (value instanceof Double) {
-            return Double.toString((double)value);
-        }
-        if (value instanceof BigDecimal) {
+        if (value instanceof Number) {
             return value.toString();
         }
 
