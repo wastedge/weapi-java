@@ -13,14 +13,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class WherePrinter extends AbstractSyntaxVisitor {
+class Printer extends AbstractSyntaxVisitor {
     private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
     private static final DateTimeFormatter DATE_TIME_TZ_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
     private final StringBuilder sb = new StringBuilder();
     private final Map<String, Object> parameters;
 
-    public WherePrinter(Map<String, Object> parameters) {
+    public static String print(SyntaxNode node) throws QueryException {
+        return print(node, null);
+    }
+
+    public static String print(SyntaxNode node, Map<String, Object> parameters) throws QueryException {
+        Printer printer = new Printer(parameters);
+
+        try {
+            node.accept(printer);
+        } catch (Exception e) {
+            if (e instanceof QueryException) {
+                throw (QueryException)e;
+            }
+
+            throw new QueryException(e.getMessage(), e);
+        }
+
+        return printer.toString();
+    }
+
+    private Printer(Map<String, Object> parameters) {
         this.parameters = parameters;
     }
 

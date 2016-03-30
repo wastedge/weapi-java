@@ -6,10 +6,7 @@ import wastedge.api.Api;
 import wastedge.api.ApiQuery;
 import wastedge.api.QueryOrder;
 import wastedge.api.QueryOrderDirection;
-import wastedge.api.weql.syntax.LimitClauseSyntax;
-import wastedge.api.weql.syntax.NameSyntax;
-import wastedge.api.weql.syntax.OrderByElementSyntax;
-import wastedge.api.weql.syntax.QuerySyntax;
+import wastedge.api.weql.syntax.*;
 
 import java.io.IOException;
 import java.util.Map;
@@ -47,28 +44,16 @@ public class WeqlQueryParser {
             throw new QueryException(message, e, new Span(null, e.line, e.charPositionInLine));
         }
 
-        ApiQuery apiQuery = api.createQuery(api.getEntitySchema(printName(querySyntax.getFromClause().getFrom())));
+        ApiQuery apiQuery = api.createQuery(api.getEntitySchema(Printer.print(querySyntax.getFromClause().getFrom())));
 
         if (querySyntax.getExpandClause() != null) {
             for (NameSyntax nameSyntax : querySyntax.getExpandClause().getElements()) {
-                apiQuery.getExpand().add(printName(nameSyntax));
+                apiQuery.getExpand().add(Printer.print(nameSyntax));
             }
         }
 
         if (querySyntax.getWhereClause() != null) {
-            WherePrinter printer = new WherePrinter(parameters);
-
-            try {
-                querySyntax.getWhereClause().accept(printer);
-            } catch (Exception e) {
-                if (e instanceof QueryException) {
-                    throw (QueryException)e;
-                }
-
-                throw new QueryException(e.getMessage(), e);
-            }
-
-            apiQuery.setQuery(printer.toString());
+            apiQuery.setQuery(Printer.print(querySyntax.getWhereClause(), parameters));
         }
 
         if (querySyntax.getOrderByClause() != null) {
@@ -91,18 +76,6 @@ public class WeqlQueryParser {
         }
 
         return apiQuery;
-    }
-
-    private String printName(NameSyntax nameSyntax) {
-        NamePrinter printer = new NamePrinter();
-
-        try {
-            nameSyntax.accept(printer);
-        } catch (Exception e) {
-            // Ignore.
-        }
-
-        return printer.toString();
     }
 
     private class CaseInsensitiveStringStream extends ANTLRStringStream {
