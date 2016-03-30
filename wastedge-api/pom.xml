@@ -21,6 +21,7 @@
         <commons-codec.version>1.10</commons-codec.version>
         <commons-io.version>2.4</commons-io.version>
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+        <jarjar-maven-plugin.version>1.9</jarjar-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -82,6 +83,46 @@
                 <configuration>
                     <skipTests>true</skipTests>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>jarjar-maven-plugin</artifactId>
+                <version>${jarjar-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jarjar</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>com.google.code.gson:gson</include>
+                                <include>commons-codec:commons-codec</include>
+                                <include>commons-io:commons-io</include>
+                                <include>net.sf.trove4j:trove4j</include>
+                                <include>org.apache.commons:commons-lang3</include>
+                            </includes>
+                            <rules>
+                                <rule>
+                                    <pattern>org.apache.**</pattern>
+                                    <result>wastedge.api.internal.org.apache.@1</result>
+                                </rule>
+                                <rule>
+                                    <pattern>gnu.trove.**</pattern>
+                                    <result>wastedge.api.internal.gnu.trove.@1</result>
+                                </rule>
+                                <rule>
+                                    <pattern>com.google.gson.**</pattern>
+                                    <result>wastedge.api.internal.com.google.gson.@1</result>
+                                </rule>
+                                <keep>
+                                    <pattern>wastedge.api.**</pattern>
+                                </keep>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
