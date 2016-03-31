@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>wastedge</groupId>
+    <groupId>com.wastedge.api</groupId>
     <artifactId>wastedge-api-jdbc</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
@@ -23,7 +23,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>wastedge</groupId>
+            <groupId>com.wastedge.api</groupId>
             <artifactId>wastedge-api</artifactId>
             <version>${wastedge-api.version}</version>
         </dependency>
@@ -77,14 +77,14 @@
                             <goal>antlr</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>target/generated-sources/antlr3/wastedge/api/jdbc/weql</outputDirectory>
+                            <outputDirectory>target/generated-sources/antlr3/com/wastedge/api/jdbc/weql</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
 
             <plugin>
-                <groupId>wastedge</groupId>
+                <groupId>com.wastedge.api</groupId>
                 <artifactId>wastedge-api-jdbc-maven-plugin</artifactId>
                 <version>0.1-SNAPSHOT</version>
                 <executions>
@@ -119,14 +119,14 @@
                             <rules>
                                 <rule>
                                     <pattern>org.apache.**</pattern>
-                                    <result>wastedge.api.jdbc.weql.internal.org.apache.@1</result>
+                                    <result>com.wastedge.api.jdbc.weql.internal.org.apache.@1</result>
                                 </rule>
                                 <rule>
                                     <pattern>org.antlr.**</pattern>
-                                    <result>wastedge.api.jdbc.weql.internal.org.antlr.@1</result>
+                                    <result>com.wastedge.api.jdbc.weql.internal.org.antlr.@1</result>
                                 </rule>
                                 <keep>
-                                    <pattern>wastedge.api.jdbc.weql.**</pattern>
+                                    <pattern>com.wastedge.api.jdbc.weql.**</pattern>
                                 </keep>
                             </rules>
                         </configuration>

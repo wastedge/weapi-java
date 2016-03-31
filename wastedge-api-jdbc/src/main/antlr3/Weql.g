@@ -6,17 +6,16 @@ options {
 }
 
 @header {
-    package wastedge.api.jdbc.weql;
+    package com.wastedge.api.jdbc.weql;
 
-    import wastedge.api.jdbc.weql.syntax.*;
+    import com.wastedge.api.jdbc.weql.syntax.*;
 }
 
 @lexer::header {
-    package wastedge.api.jdbc.weql;
+    package com.wastedge.api.jdbc.weql;
 
-    import wastedge.api.jdbc.weql.syntax.*;
+    import com.wastedge.api.jdbc.weql.syntax.*;
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // PARSER                                                                     //

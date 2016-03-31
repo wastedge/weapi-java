@@ -3,12 +3,12 @@ package wastedge;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import wastedge.api.Api;
-import wastedge.api.ApiCredentials;
-import wastedge.api.ApiQuery;
-import wastedge.api.QueryOrderDirection;
-import wastedge.api.jdbc.weql.QueryException;
-import wastedge.api.jdbc.weql.WeqlQueryParser;
+import com.wastedge.api.Api;
+import com.wastedge.api.ApiCredentials;
+import com.wastedge.api.ApiQuery;
+import com.wastedge.api.QueryOrderDirection;
+import com.wastedge.api.jdbc.weql.QueryException;
+import com.wastedge.api.jdbc.weql.WeqlQueryParser;
 
 import java.io.IOException;
 import java.util.HashMap;

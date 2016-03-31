@@ -1,4 +1,4 @@
-<schema packageName="wastedge.api.jdbc.weql.syntax">
+<schema packageName="com.wastedge.api.jdbc.weql.syntax">
     <class name="SyntaxNode" abstract="true" ignore="true">
         <property name="Span" type="Span" last="true"/>
     </class>

@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>wastedge</groupId>
+    <groupId>com.wastedge.api</groupId>
     <artifactId>wastedge-api</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
@@ -100,18 +100,18 @@
                             <rules>
                                 <rule>
                                     <pattern>org.apache.**</pattern>
-                                    <result>wastedge.api.internal.org.apache.@1</result>
+                                    <result>com.wastedge.api.internal.org.apache.@1</result>
                                 </rule>
                                 <rule>
                                     <pattern>gnu.trove.**</pattern>
-                                    <result>wastedge.api.internal.gnu.trove.@1</result>
+                                    <result>com.wastedge.api.internal.gnu.trove.@1</result>
                                 </rule>
                                 <rule>
                                     <pattern>com.google.gson.**</pattern>
-                                    <result>wastedge.api.internal.com.google.gson.@1</result>
+                                    <result>com.wastedge.api.internal.com.google.gson.@1</result>
                                 </rule>
                                 <keep>
-                                    <pattern>wastedge.api.**</pattern>
+                                    <pattern>com.wastedge.api.**</pattern>
                                 </keep>
                             </rules>
                         </configuration>
