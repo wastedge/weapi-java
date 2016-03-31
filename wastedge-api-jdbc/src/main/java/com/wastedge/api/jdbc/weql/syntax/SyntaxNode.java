@@ -1,10 +1,7 @@
 package com.wastedge.api.jdbc.weql.syntax;
 
-import com.wastedge.api.jdbc.weql.syntax.SyntaxActionVisitor;
-import com.wastedge.api.jdbc.weql.syntax.SyntaxKind;
-import com.wastedge.api.jdbc.weql.syntax.SyntaxVisitor;
-import org.apache.commons.lang3.Validate;
 import com.wastedge.api.jdbc.weql.Span;
+import org.apache.commons.lang3.Validate;
 
 public abstract class SyntaxNode {
     private final Span span;

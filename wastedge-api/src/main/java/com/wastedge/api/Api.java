@@ -6,11 +6,9 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.omg.CORBA.Request;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -253,7 +251,7 @@ public class Api {
 
         connection.setRequestMethod(method);
 
-        byte[] authorization = (credentials.getCompany() + "\\" + credentials.getUserName() + ":" + credentials.getPassword()).getBytes(StandardCharsets.UTF_8);
+        byte[] authorization = (credentials.getCompany() + "\\" + credentials.getUsername() + ":" + credentials.getPassword()).getBytes(StandardCharsets.UTF_8);
 
         connection.setRequestProperty("Authorization", "Basic " + Base64.encodeBase64String(authorization));
 

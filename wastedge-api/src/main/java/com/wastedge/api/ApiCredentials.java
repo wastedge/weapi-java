@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 public class ApiCredentials {
     private String url;
     private String company;
-    private String userName;
+    private String username;
     private String password;
 
     public static ApiCredentials parse(String queryString) throws IOException {
@@ -26,7 +26,7 @@ public class ApiCredentials {
                 String parameters = queryString.substring(pos + 1);
 
                 String company = null;
-                String userName = null;
+                String username = null;
                 String password = null;
 
                 for (String item : parameters.split("&")) {
@@ -51,7 +51,7 @@ public class ApiCredentials {
                             company = value;
                             break;
                         case "user":
-                            userName = value;
+                            username = value;
                             break;
                         case "password":
                             password = value;
@@ -59,16 +59,16 @@ public class ApiCredentials {
                     }
                 }
 
-                if (company == null && userName != null) {
-                    pos = userName.indexOf('\\');
+                if (company == null && username != null) {
+                    pos = username.indexOf('\\');
                     if (pos != -1) {
-                        company = userName.substring(0, pos);
-                        userName = userName.substring(pos + 1);
+                        company = username.substring(0, pos);
+                        username = username.substring(pos + 1);
                     }
                 }
 
-                if (company != null && userName != null && password != null) {
-                    return new ApiCredentials(url, company, userName, password);
+                if (company != null && username != null && password != null) {
+                    return new ApiCredentials(url, company, username, password);
                 }
             }
         }
@@ -76,15 +76,15 @@ public class ApiCredentials {
         throw new ApiException("Cannot parse Wastedge connection string");
     }
 
-    public ApiCredentials(String url, String company, String userName, String password) {
+    public ApiCredentials(String url, String company, String username, String password) {
         Validate.notNull(url, "url");
         Validate.notNull(company, "company");
-        Validate.notNull(userName, "userName");
+        Validate.notNull(username, "username");
         Validate.notNull(password, "password");
 
         this.url = url;
         this.company = company;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
     }
 
@@ -96,8 +96,8 @@ public class ApiCredentials {
         return company;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {

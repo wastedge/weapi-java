@@ -1,0 +1,4 @@
+OpenIDE-Module-Install: wastedge/api/jasper/designer/Installer.class
+OpenIDE-Module-Layer: wastedge/api/jasper/designer/layer.xml
+OpenIDE-Module-Localizing-Bundle: wastedge/api/jasper/designer/Bundle.properties
+OpenIDE-Module-Module-Dependencies: com.jaspersoft.ireport/1 > 1.0, org.openide.modules > 7.7.1, org.openide.util > 7.18.1.1

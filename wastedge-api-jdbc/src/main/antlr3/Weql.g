@@ -47,19 +47,6 @@ qualified_identifier returns [NameSyntax value]
         )*
     ;
 
-entity_identifier returns [NameSyntax value]
-@init {
-    Token start = input.LT(1);
-}
-    :
-        i=identifier
-        { value = i; }
-        (
-            SLASH i=identifier
-            { value = new EntityNameSyntax(value, i, span(start, input.LT(-1))); }
-        )*
-    ;
-
 //
 // Literals
 //
@@ -108,8 +95,8 @@ options { k=1; }
 
 dynamic_parameter_specification returns [DynamicParameterSyntax value]
     :
-        pi=PARAM_IDENTIFIER
-        { value = new DynamicParameterSyntax(pi.getText(), span(input.LT(-1))); }
+        pi=QUESTION_MARK
+        { value = new DynamicParameterSyntax(getNextParameterIndex(), span(input.LT(-1))); }
     ;
 
 // Expressions
@@ -236,6 +223,7 @@ options { k=1; }
     Token start = input.LT(1);
 }
     :
+        select_clause?
         fc=from_clause
         ec=expand_clause?
         wc=where_clause?
@@ -243,6 +231,16 @@ options { k=1; }
         lc=limit_clause?
         { value = new QuerySyntax(fc, ec, wc, obc, lc, span(start, input.LT(-1))); }
         EOF
+    ;
+
+// Select
+
+// This does not have a function and is here just to make it easier for SQL generators to pass queries.
+
+select_clause
+options { k=1; }
+    :
+        SELECT OP_ASTERISK
     ;
 
 // From
@@ -253,8 +251,8 @@ options { k=1; }
     Token start = input.LT(1);
 }
     :
-        FROM qi=entity_identifier
-        { value = new FromClauseSyntax(qi, span(start, input.LT(-1))); }
+        FROM i=identifier
+        { value = new FromClauseSyntax(i, span(start, input.LT(-1))); }
     ;
 
 // Expand
@@ -504,6 +502,7 @@ SELECT : 'SELECT' ;
 TRUE : 'TRUE' ;
 WHERE : 'WHERE' ;
 
+OP_ASTERISK : '*' ;
 OP_NE : '!=' ;
 OP_GE : '>=' ;
 OP_LE : '<=' ;
@@ -512,10 +511,10 @@ OP_PAREN_RIGHT : ')' ;
 OP_EQ : '=' ;
 OP_LT : '<' ;
 OP_GT : '>' ;
+QUESTION_MARK : '?' ;
 
 COMMA : ',' ;
 DOT : '.' ;
-SLASH : '/' ;
 
 fragment
 Digit
@@ -548,6 +547,8 @@ IDENTIFIER
     :
         ( '$' | Letter | '_' )
         ( '$' | Letter | Digit | '_' )*
+    |
+        '"' ( '""' | ~( '"' ) )* '"'
     ;
 
 PARAM_IDENTIFIER

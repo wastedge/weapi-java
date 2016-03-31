@@ -4,6 +4,7 @@ import org.antlr.runtime.*;
 
 public abstract class Parser extends org.antlr.runtime.Parser {
     private String fileName;
+    private int nextParameterIndex;
 
     protected Parser(TokenStream input, RecognizerSharedState state) {
         super(input, state);
@@ -11,6 +12,14 @@ public abstract class Parser extends org.antlr.runtime.Parser {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    protected int getNextParameterIndex() {
+        return nextParameterIndex++;
+    }
+
+    public int getParameters() {
+        return nextParameterIndex;
     }
 
     @Override
@@ -40,7 +49,7 @@ public abstract class Parser extends org.antlr.runtime.Parser {
     protected String parseIdentifier(String identifier) {
         if (identifier.length() >= 2 && identifier.charAt(0) == '"') {
             assert identifier.charAt(identifier.length() - 1) == '"';
-            return identifier.substring(1, identifier.length() - 1);
+            return identifier.substring(1, identifier.length() - 1).replace("\"\"", "\"");
         }
 
         return identifier;

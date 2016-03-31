@@ -25,13 +25,13 @@ class Printer extends AbstractSyntaxVisitor {
     };
 
     private final StringBuilder sb = new StringBuilder();
-    private final WeqlQueryParameterProvider parameters;
+    private final List parameters;
 
     public static String print(SyntaxNode node) throws QueryException {
         return print(node, null);
     }
 
-    public static String print(SyntaxNode node, WeqlQueryParameterProvider parameters) throws QueryException {
+    public static String print(SyntaxNode node, List parameters) throws QueryException {
         Printer printer = new Printer(parameters);
 
         try {
@@ -47,16 +47,20 @@ class Printer extends AbstractSyntaxVisitor {
         return printer.toString();
     }
 
-    private Printer(WeqlQueryParameterProvider parameters) {
+    private Printer(List parameters) {
         this.parameters = parameters;
     }
 
-    private void appendParameter(String parameter) throws QueryException {
-        if (parameters == null || !parameters.has(parameter)) {
-            throw new QueryException(String.format("Missing parameter '%s'", parameter));
+    private void appendParameter(int index) {
+        Object value;
+
+        if (parameters == null || index < 0 || index >= parameters.size()) {
+            value = null;
+        } else {
+            value = parameters.get(index);
         }
 
-        sb.append(serialize(parameters.get(parameter)));
+        sb.append(serialize(value));
     }
 
     private String serialize(Object value) {
@@ -131,14 +135,7 @@ class Printer extends AbstractSyntaxVisitor {
 
     @Override
     public void visitDynamicParameter(DynamicParameterSyntax syntax) throws Exception {
-        appendParameter(syntax.getIdentifier());
-    }
-
-    @Override
-    public void visitEntityName(EntityNameSyntax syntax) throws Exception {
-        syntax.getQualifier().accept(this);
-        sb.append('/');
-        syntax.getIdentifier().accept(this);
+        appendParameter(syntax.getIndex());
     }
 
     @Override
@@ -149,17 +146,7 @@ class Printer extends AbstractSyntaxVisitor {
     @Override
     public void visitInvocation(InvocationSyntax syntax) throws Exception {
         syntax.getName().accept(this);
-        sb.append('(');
-        List<ValueSyntax> arguments = syntax.getArguments();
-        if (arguments != null) {
-            for (int i = 0; i < arguments.size(); i++) {
-                if (i > 0) {
-                    sb.append(", ");
-                }
-                arguments.get(i).accept(this);
-            }
-        }
-        sb.append(')');
+        appendValueList(syntax.getArguments());
     }
 
     @Override
@@ -206,8 +193,11 @@ class Printer extends AbstractSyntaxVisitor {
 
     @Override
     public void visitValueList(ValueListSyntax syntax) throws Exception {
+        appendValueList(syntax.getValues());
+    }
+
+    private void appendValueList(List<ValueSyntax> values) throws Exception {
         sb.append('(');
-        List<ValueSyntax> values = syntax.getValues();
         if (values != null) {
             for (int i = 0; i < values.size(); i++) {
                 if (i > 0) {

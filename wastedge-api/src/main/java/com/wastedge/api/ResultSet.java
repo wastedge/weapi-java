@@ -9,6 +9,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.Validate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class ResultSet {
     private final List<Object[]> rows;
     private Object[] row;
     private int offset;
-    private final List<EntityTypedField> fields = new ArrayList<>();
+    private final List<EntityTypedField> fields;
     private final TObjectIntMap<String> fieldsByName = new TObjectIntHashMap<>();
     private final TObjectIntMap<EntityTypedField> fieldsByField = new TObjectIntHashMap<>();
     private EntitySchema entity;
@@ -42,6 +43,10 @@ public class ResultSet {
 
     public EntitySchema getEntity() {
         return entity;
+    }
+
+    public List<EntityTypedField> getFields() {
+        return fields;
     }
 
     public int getFieldCount() {
@@ -73,6 +78,9 @@ public class ResultSet {
 
         JsonArray resultArray = results.getAsJsonArray("result");
         JsonArray headers = resultArray.get(0).getAsJsonArray();
+
+        List<EntityTypedField> fields = new ArrayList<>();
+        this.fields = Collections.unmodifiableList(fields);
 
         for (JsonElement header : headers) {
             fields.add((EntityTypedField)entity.getMembers().get(header.getAsString()));

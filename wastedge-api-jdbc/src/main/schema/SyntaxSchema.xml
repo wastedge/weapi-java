@@ -12,10 +12,6 @@
         <property name="Qualifier" type="NameSyntax"/>
         <property name="Identifier" type="IdentifierSyntax"/>
     </class>
-    <class name="EntityNameSyntax" base="NameSyntax">
-        <property name="Qualifier" type="NameSyntax"/>
-        <property name="Identifier" type="IdentifierSyntax"/>
-    </class>
     <class name="LiteralSyntax" base="ValueSyntax">
         <property name="Value" type="String" nullable="true"/>
         <property name="Type" type="LiteralType"/>
@@ -71,7 +67,7 @@
         <property name="Arguments" type="ValueSyntax" list="true"/>
     </class>
     <class name="DynamicParameterSyntax" base="ValueSyntax">
-        <property name="Identifier" type="String"/>
+        <property name="Index" type="int"/>
     </class>
     <class name="LimitClauseSyntax" base="SyntaxNode">
         <property name="Offset" type="LiteralSyntax" nullable="true"/>

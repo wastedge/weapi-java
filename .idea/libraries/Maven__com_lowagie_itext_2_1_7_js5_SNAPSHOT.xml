@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.lowagie:itext:2.1.7.js5-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/lowagie/itext/2.1.7.js5-SNAPSHOT/itext-2.1.7.js5-20160118.162824-1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/lowagie/itext/2.1.7.js5-SNAPSHOT/itext-2.1.7.js5-20160118.162824-1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/lowagie/itext/2.1.7.js5-SNAPSHOT/itext-2.1.7.js5-20160118.162824-1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,12 +1,5 @@
 package com.wastedge.api.jdbc.weql;
 
-import com.wastedge.api.ApiQuery;
-import com.wastedge.api.QueryOrder;
-import com.wastedge.api.QueryOrderDirection;
-import com.wastedge.api.jdbc.weql.syntax.OrderByElementSyntax;
-import com.wastedge.api.jdbc.weql.syntax.QuerySyntax;
-import org.antlr.runtime.*;
-import org.apache.commons.lang3.Validate;
 import com.wastedge.api.Api;
 import com.wastedge.api.ApiQuery;
 import com.wastedge.api.QueryOrder;
@@ -15,26 +8,14 @@ import com.wastedge.api.jdbc.weql.syntax.LimitClauseSyntax;
 import com.wastedge.api.jdbc.weql.syntax.NameSyntax;
 import com.wastedge.api.jdbc.weql.syntax.OrderByElementSyntax;
 import com.wastedge.api.jdbc.weql.syntax.QuerySyntax;
+import org.antlr.runtime.*;
+import org.apache.commons.lang3.Validate;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 
 public class WeqlQueryParser {
-    public ApiQuery parse(Api api, String query, final Map<String, Object> parameters) throws QueryException, IOException {
-        return parse(api, query, new WeqlQueryParameterProvider() {
-            @Override
-            public boolean has(String parameter) {
-                return parameters == null ? false : parameters.containsKey(parameter);
-            }
-
-            @Override
-            public Object get(String parameter) {
-                return parameters == null ? null : parameters.get(parameter);
-            }
-        });
-    }
-
-    public ApiQuery parse(Api api, String query, WeqlQueryParameterProvider parameterProvider) throws QueryException, IOException {
+    public ApiQuery parse(Api api, String query, List parameters) throws IOException {
         Validate.notNull(api, "api");
         Validate.notNull(query, "query");
 
@@ -75,7 +56,7 @@ public class WeqlQueryParser {
         }
 
         if (querySyntax.getWhereClause() != null) {
-            apiQuery.setQuery(Printer.print(querySyntax.getWhereClause(), parameterProvider));
+            apiQuery.setQuery(Printer.print(querySyntax.getWhereClause(), parameters));
         }
 
         if (querySyntax.getOrderByClause() != null) {
