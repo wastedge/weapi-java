@@ -15,7 +15,6 @@
         <commons-lang3.version>3.4</commons-lang3.version>
         <junit.version>4.12</junit.version>
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
-        <joda-time.version>2.9.3</joda-time.version>
         <wastedge-api.version>1.0</wastedge-api.version>
         <antlr-runtime.version>3.5.2</antlr-runtime.version>
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
@@ -37,11 +36,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>${joda-time.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

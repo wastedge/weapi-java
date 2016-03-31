@@ -6,17 +6,13 @@ import com.google.gson.JsonObject;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.Validate;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
+@SuppressWarnings("unused")
 public class ResultSet {
     private final List<Object[]> rows;
     private Object[] row;
@@ -64,7 +60,7 @@ public class ResultSet {
         return nextResult;
     }
 
-    ResultSet(EntitySchema entity,  JsonObject results) {
+    ResultSet(EntitySchema entity,  JsonObject results) throws ApiException {
         Validate.notNull(entity, "entity");
         Validate.notNull(results, "results");
 
@@ -151,23 +147,8 @@ public class ResultSet {
         return (String)get(index);
     }
 
-    public LocalDateTime getDateTime(int index) {
-        return (LocalDateTime)get(index);
-    }
-
-    public DateTime getDateTimeOffset(int index) {
-        return (DateTime)get(index);
-    }
-
-    public BigDecimal getDecimal(int index) {
-        Object value = get(index);
-        if (value instanceof Long) {
-            return BigDecimal.valueOf((long)value);
-        }
-        if (value instanceof Double) {
-            return BigDecimal.valueOf((double)value);
-        }
-        return (BigDecimal)value;
+    public Date getDateTime(int index) {
+        return (Date)get(index);
     }
 
     public double getDouble(int index) {

@@ -1,7 +1,6 @@
 package wastedge.api;
 
 import org.apache.commons.lang3.Validate;
-import org.joda.time.field.OffsetDateTimeField;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -9,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings({"unused"})
 public class RecordSetChanges {
     public static RecordSetChanges create(RecordSet original, RecordSet modified) {
         Validate.notNull(original, "original");
