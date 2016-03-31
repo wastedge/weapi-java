@@ -4,12 +4,8 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.omg.CORBA.StringValueHelper;
 import wastedge.api.weql.syntax.*;
 
-import java.math.BigDecimal;
-import java.rmi.server.UID;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,13 +14,13 @@ class Printer extends AbstractSyntaxVisitor {
     private static final DateTimeFormatter DATE_TIME_TZ_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
     private final StringBuilder sb = new StringBuilder();
-    private final Map<String, Object> parameters;
+    private final WeqlQueryParameterProvider parameters;
 
     public static String print(SyntaxNode node) throws QueryException {
         return print(node, null);
     }
 
-    public static String print(SyntaxNode node, Map<String, Object> parameters) throws QueryException {
+    public static String print(SyntaxNode node, WeqlQueryParameterProvider parameters) throws QueryException {
         Printer printer = new Printer(parameters);
 
         try {
@@ -40,12 +36,12 @@ class Printer extends AbstractSyntaxVisitor {
         return printer.toString();
     }
 
-    private Printer(Map<String, Object> parameters) {
+    private Printer(WeqlQueryParameterProvider parameters) {
         this.parameters = parameters;
     }
 
     private void appendParameter(String parameter) throws QueryException {
-        if (parameters == null || !parameters.containsKey(parameter)) {
+        if (parameters == null || !parameters.has(parameter)) {
             throw new QueryException(String.format("Missing parameter '%s'", parameter));
         }
 

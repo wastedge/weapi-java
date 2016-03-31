@@ -1,6 +1,8 @@
 package wastedge.api.weql;
 
-public class QueryException extends Exception {
+import wastedge.api.ApiException;
+
+public class QueryException extends ApiException {
     private final Span span;
 
     public QueryException() {

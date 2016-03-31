@@ -12,7 +12,21 @@ import java.io.IOException;
 import java.util.Map;
 
 public class WeqlQueryParser {
-    public ApiQuery parse(Api api, String query, Map<String, Object> parameters) throws QueryException, IOException {
+    public ApiQuery parse(Api api, String query, final Map<String, Object> parameters) throws QueryException, IOException {
+        return parse(api, query, new WeqlQueryParameterProvider() {
+            @Override
+            public boolean has(String parameter) {
+                return parameters == null ? false : parameters.containsKey(parameter);
+            }
+
+            @Override
+            public Object get(String parameter) {
+                return parameters == null ? null : parameters.get(parameter);
+            }
+        });
+    }
+
+    public ApiQuery parse(Api api, String query, WeqlQueryParameterProvider parameterProvider) throws QueryException, IOException {
         Validate.notNull(api, "api");
         Validate.notNull(query, "query");
 
@@ -53,7 +67,7 @@ public class WeqlQueryParser {
         }
 
         if (querySyntax.getWhereClause() != null) {
-            apiQuery.setQuery(Printer.print(querySyntax.getWhereClause(), parameters));
+            apiQuery.setQuery(Printer.print(querySyntax.getWhereClause(), parameterProvider));
         }
 
         if (querySyntax.getOrderByClause() != null) {
