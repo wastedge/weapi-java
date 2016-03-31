@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/wastedge-api/wastedge-api.iml" filepath="$PROJECT_DIR$/wastedge-api/wastedge-api.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wastedge-api-weql/wastedge-api-weql.iml" filepath="$PROJECT_DIR$/wastedge-api-weql/wastedge-api-weql.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wastedge-api-weql-maven-plugin/wastedge-api-weql-maven-plugin.iml" filepath="$PROJECT_DIR$/wastedge-api-weql-maven-plugin/wastedge-api-weql-maven-plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wastedge-api-jdbc/wastedge-api-jdbc.iml" filepath="$PROJECT_DIR$/wastedge-api-jdbc/wastedge-api-jdbc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wastedge-api-jdbc-maven-plugin/wastedge-api-jdbc-maven-plugin.iml" filepath="$PROJECT_DIR$/wastedge-api-jdbc-maven-plugin/wastedge-api-jdbc-maven-plugin.iml" />
     </modules>
   </component>
 </project>

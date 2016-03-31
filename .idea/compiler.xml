@@ -23,14 +23,17 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="wastedge-api" />
-        <module name="wastedge-api-weql" />
-        <module name="wastedge-api-weql-maven-plugin" />
+        <module name="wastedge-api-jdbc" />
+        <module name="wastedge-api-jdbc-maven-plugin" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="wastedge-api" target="1.7" />
-      <module name="wastedge-api-weql" target="1.7" />
-      <module name="wastedge-api-weql-maven-plugin" target="1.7" />
+      <module name="wastedge-api-jdbc" target="1.7" />
+      <module name="wastedge-api-jdbc-maven-plugin" target="1.7" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-Xlint:unchecked" />
   </component>
 </project>
