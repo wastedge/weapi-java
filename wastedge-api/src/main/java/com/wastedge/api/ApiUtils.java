@@ -3,114 +3,63 @@ package com.wastedge.api;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonPrimitive;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 class ApiUtils {
-    private static final ThreadLocal<SimpleDateFormat> DATE_FORMAT = new InheritableThreadLocal<SimpleDateFormat>() {
-        @Override
-        protected SimpleDateFormat initialValue() {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-            simpleDateFormat.setLenient(false);
-            return simpleDateFormat;
-        }
-    };
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+    private static final DateTimeFormatter DATE_TIME_TZ_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").withOffsetParsed();
 
-    private static final ThreadLocal<SimpleDateFormat> DATE_TIME_FORMAT = new InheritableThreadLocal<SimpleDateFormat>() {
-        @Override
-        protected SimpleDateFormat initialValue() {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
-            simpleDateFormat.setLenient(false);
-            return simpleDateFormat;
-        }
-    };
-
-    private static final ThreadLocal<SimpleDateFormat> DATE_TIME_TZ_FORMAT = new InheritableThreadLocal<SimpleDateFormat>() {
-        @Override
-        protected SimpleDateFormat initialValue() {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.US);
-            simpleDateFormat.setLenient(false);
-            return simpleDateFormat;
-        }
-    };
-
-    private static final ThreadLocal<SimpleDateFormat> DATE_TIME_TZ_PRINT_FORMAT = new InheritableThreadLocal<SimpleDateFormat>() {
-        @Override
-        protected SimpleDateFormat initialValue() {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.US);
-            simpleDateFormat.setLenient(false);
-            return simpleDateFormat;
-        }
-    };
-
-    public static Date parseDate(String value) throws ApiException {
+    public static LocalDateTime parseDate(String value) {
         if (value == null) {
             return null;
         }
 
-        try {
-            return DATE_FORMAT.get().parse(value);
-        } catch (ParseException e) {
-            throw new ApiException(e.getMessage(), e);
-        }
+        return DATE_FORMAT.parseLocalDateTime(value);
     }
 
-    public static Date parseDateTime(String value) throws ApiException {
+    public static LocalDateTime parseDateTime(String value) {
         if (value == null) {
             return null;
         }
 
-        try {
-            return DATE_TIME_FORMAT.get().parse(value);
-        } catch (ParseException e) {
-            throw new ApiException(e.getMessage(), e);
-        }
+        return DATE_TIME_FORMAT.parseLocalDateTime(value);
     }
 
-    public static Calendar parseDateTimeOffset(String value) throws ApiException {
+    public static DateTime parseDateTimeOffset(String value) {
         if (value == null) {
             return null;
         }
 
-        try {
-            SimpleDateFormat simpleDateFormat = DATE_TIME_TZ_FORMAT.get();
-            Calendar calendar = Calendar.getInstance();
-            simpleDateFormat.setCalendar(calendar);
-            simpleDateFormat.parse(value);
-            return calendar;
-        } catch (ParseException e) {
-            throw new ApiException(e.getMessage(), e);
-        }
+        return DATE_TIME_TZ_FORMAT.parseDateTime(value);
     }
 
-    public static String printDate(Date value) {
+    public static String printDate(LocalDateTime value) {
         if (value == null) {
             return null;
         }
 
-        return DATE_FORMAT.get().format(value);
+        return DATE_FORMAT.print(value);
     }
 
-    public static String printDateTime(Date value) {
+    public static String printDateTime(LocalDateTime value) {
         if (value == null) {
             return null;
         }
 
-        return DATE_TIME_FORMAT.get().format(value);
+        return DATE_TIME_FORMAT.print(value);
     }
 
-    public static String printDateTimeOffset(Calendar value) {
+    public static String printDateTimeOffset(DateTime value) {
         if (value == null) {
             return null;
         }
 
-        SimpleDateFormat simpleDateFormat = DATE_TIME_TZ_PRINT_FORMAT.get();
-        simpleDateFormat.setTimeZone(value.getTimeZone());
-        return simpleDateFormat.format(value.getTime());
+        return DATE_TIME_TZ_FORMAT.print(value);
     }
 
     public static String serialize(Object value, EntityDataType dataType) {
@@ -120,18 +69,29 @@ class ApiUtils {
         if (value instanceof String) {
             return (String)value;
         }
-        if (value instanceof Date) {
+        if (value instanceof DateTime) {
             switch (dataType) {
                 case DATE:
-                    return printDate((Date)value);
+                    return printDate(((DateTime)value).toLocalDateTime());
                 case DATE_TIME:
-                    return printDateTime((Date)value);
+                    return printDateTime(((DateTime)value).toLocalDateTime());
+                case DATE_TIME_TZ:
+                    return printDateTimeOffset((DateTime)value);
                 default:
                     throw new IllegalArgumentException("value");
             }
         }
-        if (value instanceof Calendar) {
-            return printDateTimeOffset((Calendar)value);
+        if (value instanceof LocalDateTime) {
+            switch (dataType) {
+                case DATE:
+                    return printDate((LocalDateTime)value);
+                case DATE_TIME:
+                    return printDateTime((LocalDateTime)value);
+                case DATE_TIME_TZ:
+                    return printDateTimeOffset(((LocalDateTime)value).toDateTime());
+                default:
+                    throw new IllegalArgumentException("value");
+            }
         }
         if (value instanceof Number) {
             return value.toString();
@@ -153,8 +113,11 @@ class ApiUtils {
         if (value instanceof Boolean) {
             return new JsonPrimitive((Boolean)value);
         }
-        if (value instanceof Date) {
-            return new JsonPrimitive(printDateTime((Date)value));
+        if (value instanceof LocalDateTime) {
+            return new JsonPrimitive(printDateTime((LocalDateTime)value));
+        }
+        if (value instanceof DateTime) {
+            return new JsonPrimitive(printDateTimeOffset((DateTime)value));
         }
 
         throw new IllegalArgumentException("value");

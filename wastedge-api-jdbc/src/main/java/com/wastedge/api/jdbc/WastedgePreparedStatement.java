@@ -1,6 +1,7 @@
 package com.wastedge.api.jdbc;
 
 import org.apache.commons.lang3.Validate;
+import org.joda.time.LocalDateTime;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 public class WastedgePreparedStatement extends WastedgeStatement implements PreparedStatement {
     private final String query;
     private final List parameters = new ArrayList();
@@ -133,6 +135,12 @@ public class WastedgePreparedStatement extends WastedgeStatement implements Prep
     public void setObject(int parameterIndex, Object value) throws SQLException {
         while (parameters.size() <= parameterIndex) {
             parameters.add(null);
+        }
+
+        if (value instanceof Date) {
+            value = new LocalDateTime(((Date)value).getTime());
+        } else if (value instanceof Timestamp) {
+            value = new LocalDateTime(((Timestamp)value).getTime());
         }
 
         parameters.set(parameterIndex, value);

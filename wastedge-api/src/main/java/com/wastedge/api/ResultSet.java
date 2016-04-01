@@ -7,10 +7,11 @@ import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.Validate;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -155,8 +156,12 @@ public class ResultSet {
         return (String)get(index);
     }
 
-    public Date getDateTime(int index) {
-        return (Date)get(index);
+    public LocalDateTime getDateTime(int index) {
+        return (LocalDateTime)get(index);
+    }
+
+    public DateTime getDateTimeOffset(int index) {
+        return (DateTime)get(index);
     }
 
     public double getDouble(int index) {

@@ -1,13 +1,12 @@
 package com.wastedge.api;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
 import static org.junit.Assert.*;
 
@@ -170,9 +169,8 @@ public class AppTest {
 
     @Test
     public void dateTimeSerialization() throws ApiException {
-        Calendar calendar = ApiUtils.parseDateTimeOffset("2000-01-01T12:34:56.789+07:00");
-        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-        String printed = ApiUtils.printDateTimeOffset(calendar);
-        assertEquals("2000-01-01T05:34:56.789Z", printed);
+        DateTime dateTime = ApiUtils.parseDateTimeOffset("2000-01-01T12:34:56.789+07:00");
+        String printed = ApiUtils.printDateTimeOffset(dateTime);
+        assertEquals("2000-01-01T12:34:56.789+07:00", printed);
     }
 }

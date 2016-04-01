@@ -2,6 +2,8 @@ package com.wastedge.api.jdbc;
 
 import com.wastedge.api.EntitySchema;
 import org.apache.commons.lang3.Validate;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -106,9 +108,19 @@ public class WastedgeResultSet implements ResultSet {
         return (byte[])getObject(columnIndex);
     }
 
+    private Date getDate(Object value) {
+        if (value instanceof DateTime) {
+            return new Date(((DateTime)value).getMillis());
+        }
+        if (value instanceof LocalDateTime) {
+            return new Date(((LocalDateTime)value).toDateTime().getMillis());
+        }
+        return (Date)value;
+    }
+
     @Override
     public Date getDate(int columnIndex) throws SQLException {
-        return (Date)getObject(columnIndex);
+        return getDate(getValue(columnIndex));
     }
 
     @Override
@@ -118,7 +130,17 @@ public class WastedgeResultSet implements ResultSet {
 
     @Override
     public Timestamp getTimestamp(int columnIndex) throws SQLException {
-        return new Timestamp(getDate(columnIndex).getTime());
+        return getTimestamp(getValue(columnIndex));
+    }
+
+    private Timestamp getTimestamp(Object value) {
+        if (value instanceof DateTime) {
+            return new Timestamp(((DateTime)value).getMillis());
+        }
+        if (value instanceof LocalDateTime) {
+            return new Timestamp(((LocalDateTime)value).toDateTime().getMillis());
+        }
+        return (Timestamp)value;
     }
 
     @Override
@@ -192,7 +214,7 @@ public class WastedgeResultSet implements ResultSet {
 
     @Override
     public Date getDate(String columnLabel) throws SQLException {
-        return (Date)getObject(columnLabel);
+        return getDate(getValue(columnLabel));
     }
 
     @Override
@@ -202,7 +224,7 @@ public class WastedgeResultSet implements ResultSet {
 
     @Override
     public Timestamp getTimestamp(String columnLabel) throws SQLException {
-        return new Timestamp(getDate(columnLabel).getTime());
+        return getTimestamp(getValue(columnLabel));
     }
 
     @Override
@@ -242,21 +264,32 @@ public class WastedgeResultSet implements ResultSet {
 
     @Override
     public Object getObject(int columnIndex) throws SQLException {
+        return coerceValue(getValue(columnIndex));
+    }
+
+    private Object getValue(int columnIndex) {
         Object value = resultSet.get(columnIndex - 1);
         wasNull = value == null;
-        return coerceValue(value);
+        return value;
     }
 
     @Override
     public Object getObject(String columnLabel) throws SQLException {
+        return coerceValue(getValue(columnLabel));
+    }
+
+    private Object getValue(String columnLabel) {
         Object value = resultSet.get(columnLabel);
         wasNull = value == null;
-        return coerceValue(value);
+        return value;
     }
 
     private Object coerceValue(Object value) {
-        if (value instanceof java.util.Date) {
-            return new Date(((java.util.Date)value).getTime());
+        if (value instanceof DateTime) {
+            return new Timestamp(((DateTime)value).getMillis());
+        }
+        if (value instanceof LocalDateTime) {
+            return new Timestamp(((LocalDateTime)value).toDateTime().getMillis());
         }
 
         return value;

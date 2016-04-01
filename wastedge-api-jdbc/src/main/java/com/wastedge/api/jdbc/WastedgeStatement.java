@@ -3,9 +3,11 @@ package com.wastedge.api.jdbc;
 import com.wastedge.api.ApiQuery;
 import com.wastedge.api.jdbc.weql.WeqlQueryParser;
 import org.apache.commons.lang3.Validate;
+import org.joda.time.LocalDateTime;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class WastedgeStatement implements Statement {

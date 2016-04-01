@@ -1,28 +1,16 @@
 package com.wastedge.api.jdbc.weql;
 
 import com.wastedge.api.jdbc.weql.syntax.*;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.List;
 
 class Printer extends AbstractSyntaxVisitor {
-    private static final ThreadLocal<SimpleDateFormat> DATE_TIME_FORMAT = new InheritableThreadLocal<SimpleDateFormat>() {
-        @Override
-        protected SimpleDateFormat initialValue() {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
-            simpleDateFormat.setLenient(false);
-            return simpleDateFormat;
-        }
-    };
-
-    private static final ThreadLocal<SimpleDateFormat> DATE_TIME_TZ_FORMAT = new InheritableThreadLocal<SimpleDateFormat>() {
-        @Override
-        protected SimpleDateFormat initialValue() {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.US);
-            simpleDateFormat.setLenient(false);
-            return simpleDateFormat;
-        }
-    };
+    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+    private static final DateTimeFormatter DATE_TIME_TZ_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").withOffsetParsed();
 
     private final StringBuilder sb = new StringBuilder();
     private final List parameters;
@@ -75,13 +63,10 @@ class Printer extends AbstractSyntaxVisitor {
         }
 
         String string;
-        if (value instanceof Calendar) {
-            SimpleDateFormat simpleDateFormat = DATE_TIME_TZ_FORMAT.get();
-            Calendar calendar = (Calendar)value;
-            simpleDateFormat.setTimeZone(calendar.getTimeZone());
-            string = simpleDateFormat.format(calendar.getTime());
-        } else if (value instanceof Date) {
-            string = DATE_TIME_FORMAT.get().format(value);
+        if (value instanceof LocalDateTime) {
+            string = DATE_TIME_FORMAT.print((LocalDateTime)value);
+        } else if (value instanceof DateTime) {
+            string = DATE_TIME_TZ_FORMAT.print((DateTime)value);
         } else {
             string = value.toString();
         }
