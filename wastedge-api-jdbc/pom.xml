@@ -7,8 +7,8 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>wastedge-api-jdbc</name>
-    <url>http://www.wastedge.com</url>
+    <name>Wastedge API for JDBC</name>
+    <url>https://github.com/wastedge/weapi-java</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -92,7 +92,7 @@
             <plugin>
                 <groupId>com.wastedge.api</groupId>
                 <artifactId>wastedge-api-jdbc-maven-plugin</artifactId>
-                <version>0.1-SNAPSHOT</version>
+                <version>1.0</version>
                 <executions>
                     <execution>
                         <id>generate-syntax</id>

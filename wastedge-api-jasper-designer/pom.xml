@@ -7,8 +7,8 @@
     <version>1.0</version>
     <packaging>nbm</packaging>
 
-    <name>wastedge-api-jasper-designer</name>
-    <url>http://www.wastedge.com</url>
+    <name>Wastedge for iReports Designer</name>
+    <url>https://github.com/wastedge/weapi-java</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

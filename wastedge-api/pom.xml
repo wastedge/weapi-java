@@ -7,8 +7,8 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>wastedge-api</name>
-    <url>http://www.wastedge.com</url>
+    <name>Wastedge API for Java</name>
+    <url>https://github.com/wastedge/weapi-java</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
