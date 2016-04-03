@@ -15,6 +15,14 @@ The Wastedge API for Java contains a few different projects:
 
 At the moment we only support iReports Designer. Support for iReports Studio is being developed.
 
+## Downloading
+
+The iReports Designer plugin can be downloaded from the 
+[releases page on GitHub](https://github.com/wastedge/data-warehouse/releases).
+
+At this moment the Java libraries are not yet hosted on Maven Central and they can also
+be downloaded from the release page.
+
 ## Bugs
 
 Please report bugs on the [GitHub Issues](https://github.com/wastedge/weapi-java/issues) page.
