@@ -20,7 +20,7 @@ public class ApiCredentials {
         if (queryString.startsWith(prefix)) {
             queryString = queryString.substring(prefix.length());
 
-            int pos = prefix.indexOf('?');
+            int pos = queryString.indexOf('?');
             if (pos != -1) {
                 String url = queryString.substring(0, pos);
                 String parameters = queryString.substring(pos + 1);
@@ -44,7 +44,7 @@ public class ApiCredentials {
                     }
 
                     key = URLDecoder.decode(key, StandardCharsets.UTF_8.name());
-                    value = URLDecoder.decode(key, StandardCharsets.UTF_8.name());
+                    value = URLDecoder.decode(value, StandardCharsets.UTF_8.name());
 
                     switch (key) {
                         case "company":

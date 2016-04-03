@@ -14,14 +14,9 @@ import static org.junit.Assert.*;
 public class AppTest {
     private static Api api;
 
-    private Api api() {
+    private Api api() throws IOException {
         if (api == null) {
-            api = new Api(new ApiCredentials(
-                "http://attiswrk06",
-                "wedge2",
-                "pieter",
-                "Pieter"
-            ));
+            api = new Api(ApiCredentials.parse(System.getProperty("weapi")));
         }
 
         return api;
