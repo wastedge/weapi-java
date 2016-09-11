@@ -47,7 +47,6 @@
         <option value="$PROJECT_DIR$/wastedge-api/pom.xml" />
         <option value="$PROJECT_DIR$/wastedge-api-jdbc/pom.xml" />
         <option value="$PROJECT_DIR$/wastedge-api-jdbc-maven-plugin/pom.xml" />
-        <option value="$PROJECT_DIR$/wastedge-api-jasper-designer/pom.xml" />
       </list>
     </option>
   </component>

@@ -23,7 +23,6 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="wastedge-api" />
-        <module name="wastedge-api-jasper-designer" />
         <module name="wastedge-api-jdbc" />
         <module name="wastedge-api-jdbc-maven-plugin" />
       </profile>
